@@ -7,6 +7,9 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { signIn } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.email("Plz enter a vali email"),
@@ -17,6 +20,7 @@ type LoginFormvalues = z.infer<typeof loginSchema>;
 
 function LoginForm() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<LoginFormvalues>({
     resolver: zodResolver(loginSchema),
@@ -30,8 +34,24 @@ function LoginForm() {
     setLoading(true);
 
     try {
-      console.log(values);
-    } catch (error) {}
+      const { error } = await signIn.email({
+        email: values.email,
+        password: values.password,
+        rememberMe: true,
+      });
+
+      if (error) {
+        toast("Login failed!");
+        return;
+      }
+
+      toast("Login success!");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
