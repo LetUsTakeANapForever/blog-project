@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import UserMenu from "../auth/user-menu";
 
 function Header() {
-
+  const { data: session, isPending } = useSession();
   const router = useRouter();
 
   const navItems = [
@@ -27,22 +29,27 @@ function Header() {
             Blog
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            {
-              navItems.map(item => (
-                <Link key={item.href} href={item.href}>{item.label}</Link>
-              ))
-            }
+            {navItems.map(item => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
           </nav>
-          </div>
-          <div className="flex items-center gap-4">
-          <div className="hidden md:block">
-            {/* Placeholder for search */}
-          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="hidden md:block">{/* Placeholder for search */}</div>
           {/* placeholder for theme toggle */}
           <div className="flex items-center gap-2">
-            <Button className="cursor-pointer" onClick={() => router.push('/auth')}>
-              Login
-            </Button>
+            {isPending ? null : session?.user ? ( // check if the user is logged in
+              <UserMenu user={session?.user} />
+            ) : (
+              <Button
+                className="cursor-pointer"
+                onClick={() => router.push("/auth")}
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </div>
