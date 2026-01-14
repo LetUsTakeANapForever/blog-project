@@ -56,7 +56,7 @@ function LoginForm() {
 
   return (
     <Form {...form}>
-      <form className="space-y-4" onClick={form.handleSubmit(onSubmit)}>
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
