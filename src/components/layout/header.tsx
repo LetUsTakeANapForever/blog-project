@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import UserMenu from "../auth/user-menu";
+import ThemeToggle from "@/store/theme-toggle";
 
 function Header() {
   const { data: session, isPending } = useSession();
@@ -38,7 +39,7 @@ function Header() {
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:block">{/* Placeholder for search */}</div>
-          {/* placeholder for theme toggle */}
+          <ThemeToggle />
           <div className="flex items-center gap-2">
             {isPending ? null : session?.user ? ( // check if the user is logged in
               <UserMenu user={session?.user} />
