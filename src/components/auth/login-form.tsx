@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
-  email: z.email("Plz enter a vali email"),
+  email: z.email("Plz enter a valid email"),
   password: z.string().min(8, "Password must be 6 character long"),
 });
 
