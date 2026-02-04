@@ -14,10 +14,7 @@ export async function createPost(formData:FormData) {
     try {
         // get the current user to make sure they're authenticated
         const session = await auth.api.getSession({
-            headers: await headers(),
-            query: {
-              disableCookieCache: true // Forces a fresh DB check if the cache is stale
-            }
+            headers: await headers()
         });
 
         if (!session || !session?.user){
