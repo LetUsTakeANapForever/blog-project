@@ -31,7 +31,7 @@ export const auth = betterAuth({
         enabled: true,
         maxAge: 60 * 5 // 5 mins
     },
-    disableSessionRefresh: true, //  The session is not updated regardless of the `updateAge` option. (default: `false`)
+    disableSessionRefresh: false,
   },
   advanced: {
     useSecureCookies: process.env.NODE_ENV === 'production',
